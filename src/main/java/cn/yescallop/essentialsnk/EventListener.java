@@ -1,12 +1,10 @@
 package cn.yescallop.essentialsnk;
 
 import cn.nukkit.Player;
-import cn.nukkit.block.Block;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.Listener;
 import cn.nukkit.event.player.*;
-import cn.nukkit.level.Location;
 
 import java.util.Iterator;
 
@@ -23,11 +21,11 @@ public class EventListener implements Listener {
         api.setLastLocation(event.getPlayer(), event.getFrom());
     }
 
-    @EventHandler(ignoreCancelled = true)
+    /*@EventHandler(ignoreCancelled = true)
     public void onPlayerBedEnter(PlayerBedEnterEvent event) {
         Block bed = event.getBed();
         api.setHome(event.getPlayer(), "bed", Location.fromObject(bed, bed.level, 0, 0));
-    }
+    }*/
 
     @EventHandler(ignoreCancelled = true)
     public void onPlayerJoin(PlayerJoinEvent event) {
