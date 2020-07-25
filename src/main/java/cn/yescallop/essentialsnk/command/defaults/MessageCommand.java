@@ -48,7 +48,7 @@ public class MessageCommand extends CommandBase {
         }
 
         if (sender instanceof Player) {
-            if (api.isIgnoring(((Player) sender).getUniqueId(), player.getUniqueId())) {
+            if (api.isIgnoring(player.getUniqueId(), ((Player) sender).getUniqueId())) {
                 sender.sendMessage(TextFormat.RED + "This player doesn't allow private messages from you");
                 return true;
             }
