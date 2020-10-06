@@ -55,7 +55,7 @@ permissions:
   essentialsnk.home:
     default: op
   essentialsnk.ignore:
-    default: true
+    default: op
   essentialsnk.itemdb:
     default: op
   essentialsnk.jump:
@@ -127,4 +127,6 @@ permissions:
   essentialsnk.whois:
     default: op
   essentialsnk.whois.other:
+    default: op
+  essentialsnk.message:
     default: op
