@@ -31,14 +31,13 @@ import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class EssentialsAPI {
 
-    private static final long TP_EXPIRATION = TimeUnit.MINUTES.toMillis(1);
+    private static final int/*long*/ TP_EXPIRATION = 1200;//TimeUnit.MINUTES.toMillis(1);
     private static final Pattern COOLDOWN_PATTERN = Pattern.compile("^essentialsnk\\.cooldown\\.([0-9]+)$", Pattern.CASE_INSENSITIVE);
     private static final Pattern TP_COOLDOWN_PATTERN = Pattern.compile("^essentialsnk\\.tp\\.cooldown\\.([0-9]+)$", Pattern.CASE_INSENSITIVE);
     private static final Pattern HOMES_PERMISSION_PATTERN = Pattern.compile("^essentialsnk\\.homes\\.([0-9]+)$", Pattern.CASE_INSENSITIVE);
@@ -52,7 +51,7 @@ public class EssentialsAPI {
     private final Map<CommandSender, Long> cooldown = new IdentityHashMap<>();
     private final List<TPCooldown> tpCooldowns = new ArrayList<>();
     private Map<Player, Location> playerLastLocation = new HashMap<>();
-    private Map<Integer, TPRequest> tpRequests = new ConcurrentHashMap<>();
+    private Map<Integer, TPRequest> tpRequests = new /*Concurrent*/HashMap<>();
     private List<Player> vanishedPlayers = new ArrayList<>();
     private Map<String, String> lastMessagedPlayers = new HashMap<>();
 
@@ -74,7 +73,7 @@ public class EssentialsAPI {
         this.configs = new Configs(plugin, configTypes);
 
         this.plugin.getServer().getScheduler().scheduleDelayedRepeatingTask(this.plugin, new TeleportationExpireTask(),
-                20, 20, true);
+                100, 100);//20, 20, true
     }
 
     public static EssentialsAPI getInstance() {
@@ -257,7 +256,7 @@ public class EssentialsAPI {
     }
 
     public void requestTP(Player from, Player to, boolean isTo) {
-        this.tpRequests.put(getHashCode(from, to, isTo), new TPRequest(System.currentTimeMillis(), from, to, isTo ? to.getLocation() : from.getLocation(), isTo));
+        this.tpRequests.put(getHashCode(from, to, isTo), new TPRequest(getServer().getTick()/*System.currentTimeMillis()*/, from, to, isTo ? to.getLocation() : from.getLocation(), isTo));
     }
 
     public List<TPRequest> getTPRequestsTo(Player player) {
@@ -638,12 +637,13 @@ public class EssentialsAPI {
         public void run() {
             Iterator<TPRequest> requestIterator = EssentialsAPI.this.tpRequests.values().iterator();
 
-            long currentTime = System.currentTimeMillis();
+            //long currentTime = System.currentTimeMillis();
+            int currentTime = getServer().getTick();
 
             while (requestIterator.hasNext()) {
                 TPRequest request = requestIterator.next();
 
-                long expirationTime = request.getRequestTime() + TP_EXPIRATION;
+                /*long*/int expirationTime = request.getRequestTime() + TP_EXPIRATION;
                 if (expirationTime <= currentTime) {
                     requestIterator.remove();
                 }

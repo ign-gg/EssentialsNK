@@ -5,13 +5,13 @@ import cn.nukkit.level.Location;
 
 public class TPRequest implements Comparable<TPRequest> {
 
-    private final long requestTime;
+    private final int/*long*/ requestTime;
     private final Player sender;
     private final Player recipient;
     private final Location location;
     private final boolean to;
 
-    public TPRequest(long requestTime, Player sender, Player recipient, Location location, boolean to) {
+    public TPRequest(/*long*/int requestTime, Player sender, Player recipient, Location location, boolean to) {
         this.requestTime = requestTime;
         this.sender = sender;
         this.recipient = recipient;
@@ -19,7 +19,7 @@ public class TPRequest implements Comparable<TPRequest> {
         this.to = to;
     }
 
-    public long getRequestTime() {
+    public int/*long*/ getRequestTime() {
         return requestTime;
     }
 
@@ -41,6 +41,6 @@ public class TPRequest implements Comparable<TPRequest> {
 
     @Override
     public int compareTo(TPRequest that) {
-        return Long.compare(this.requestTime, that.requestTime);
+        return /*Long*/Integer.compare(this.requestTime, that.requestTime);
     }
 }

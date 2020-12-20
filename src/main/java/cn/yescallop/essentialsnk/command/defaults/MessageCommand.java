@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 
 public class MessageCommand extends CommandBase {
 
-    private static final Pattern pattern = Pattern.compile("[^\\p{L}\\p{N}\\p{P}\\p{Z}]", Pattern.UNICODE_CHARACTER_CLASS);
+    private static final Pattern pattern = Pattern.compile("[^\\p{L}\\p{N}\\p{P}\\p{Z}\\p{Sm}\\p{Sc}\\p{Sk}]", Pattern.UNICODE_CHARACTER_CLASS);
 
     public MessageCommand(EssentialsAPI api) {
         super("message", api);

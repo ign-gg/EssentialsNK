@@ -21,7 +21,7 @@ public class Configs implements Closeable {
         Preconditions.checkNotNull(configTypes, "configTypes");
         Preconditions.checkArgument(!configTypes.isEmpty(), "configTypes was empty");
         this.reloadTaskHandler = plugin.getServer().getScheduler()
-                .scheduleDelayedRepeatingTask(plugin, new ConfigChangeTask(), 600, 600);
+                .scheduleDelayedRepeatingTask(plugin, new ConfigChangeTask(), 1200, 1200);
 
         for (ConfigType configType : configTypes) {
             this.configs.put(configType, new ConfigData(configType));

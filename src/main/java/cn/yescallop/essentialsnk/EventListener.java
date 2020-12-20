@@ -16,10 +16,10 @@ public class EventListener implements Listener {
         this.api = api;
     }
 
-    @EventHandler(ignoreCancelled = true)
+    /*@EventHandler(ignoreCancelled = true)
     public void onPlayerTeleport(PlayerTeleportEvent event) {
         api.setLastLocation(event.getPlayer(), event.getFrom());
-    }
+    }*/
 
     /*@EventHandler(ignoreCancelled = true)
     public void onPlayerBedEnter(PlayerBedEnterEvent event) {
