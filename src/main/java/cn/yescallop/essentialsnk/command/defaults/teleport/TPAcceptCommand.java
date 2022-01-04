@@ -19,7 +19,7 @@ public class TPAcceptCommand extends CommandBase {
         // command parameters
         commandParameters.clear();
         this.commandParameters.put("default", new CommandParameter[] {
-                new CommandParameter("player", CommandParamType.TARGET, true)
+                new CommandParameter("player", CommandParamType.TARGET, false) // true
         });
     }
 
@@ -30,7 +30,7 @@ public class TPAcceptCommand extends CommandBase {
         if (!this.testIngame(sender)) {
             return false;
         }
-        if (args.length > 1) {
+        if (args.length != 1) { // > 1
             this.sendUsage(sender);
             return false;
         }
