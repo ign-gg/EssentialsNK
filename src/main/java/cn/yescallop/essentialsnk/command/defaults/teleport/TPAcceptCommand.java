@@ -47,10 +47,6 @@ public class TPAcceptCommand extends CommandBase {
                 sender.sendMessage(TextFormat.RED + Language.translate("commands.tpaccept.unavailable"));
                 return false;
             }
-            if (request == null) {
-                sender.sendMessage(TextFormat.RED + Language.translate("commands.tpaccept.noRequest"));
-                return false;
-            }
             from = request.getSender();
         } else {
             from = api.getServer().getPlayer(args[0]);
