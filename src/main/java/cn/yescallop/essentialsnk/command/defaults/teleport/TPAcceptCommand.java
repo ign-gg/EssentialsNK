@@ -42,7 +42,7 @@ public class TPAcceptCommand extends CommandBase {
         TPRequest request;
         Player from;
         if (args.length == 0) {
-            to.sendActionBar("[!] Accepting random TP requests may not be safe.\nIt is recommended to always specify which request to accept.");
+            to.sendActionBar("§e[!] It is recommended to always specify which teleport request to accept using §a/tpaccept <player>");
             if ((request = api.getLatestTPRequestTo(to)) == null) {
                 sender.sendMessage(TextFormat.RED + Language.translate("commands.tpaccept.unavailable"));
                 return false;
