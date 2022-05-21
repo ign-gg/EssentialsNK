@@ -50,6 +50,7 @@ public class FeedCommand extends CommandBase {
         }
         PlayerFood foodData = player.getFoodData();
         foodData.setLevel(foodData.getMaxLevel());
+        foodData.setFoodSaturationLevel(foodData.getMaxLevel());
         foodData.sendFoodLevel();
         player.sendMessage(Language.translate("commands.feed.success"));
         if (sender != player) {
