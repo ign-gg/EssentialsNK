@@ -28,7 +28,7 @@ public class TopCommand extends CommandBase {
         }
         Player player = (Player) sender;
         sender.sendMessage(Language.translate("commands.generic.teleporting"));
-        player.teleport(api.getHighestStandablePositionAt(player));
+        player.level.threadedExecutor.execute(() -> player.teleport(api.getHighestStandablePositionAt(player)));
         return true;
     }
 }

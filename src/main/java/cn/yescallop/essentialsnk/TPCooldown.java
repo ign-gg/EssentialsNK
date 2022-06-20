@@ -21,7 +21,7 @@ public class TPCooldown {
     }
 
     public void execute() {
-        player.teleport(location);
+        player.level.threadedExecutor.execute(() -> player.teleport(location));
         player.sendMessage(message);
     }
 }

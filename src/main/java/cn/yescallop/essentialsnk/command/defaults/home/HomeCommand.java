@@ -49,7 +49,7 @@ public class HomeCommand extends CommandBase {
             sender.sendMessage(TextFormat.RED + Language.translate("commands.home.notexists", args[0]));
             return false;
         }
-        player.teleport(home);
+        player.level.threadedExecutor.execute(() -> player.teleport(home));
         sender.sendMessage(Language.translate("commands.home.success", args[0]));
         return true;
     }

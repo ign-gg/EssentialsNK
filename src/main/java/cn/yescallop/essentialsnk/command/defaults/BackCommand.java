@@ -35,7 +35,7 @@ public class BackCommand extends CommandBase {
             sender.sendMessage(TextFormat.RED + Language.translate("commands.back.notavalible"));
             return false;
         }
-        player.teleport(pos);
+        player.level.threadedExecutor.execute(() -> player.teleport(pos));
         sender.sendMessage(Language.translate("commands.generic.teleporting"));
         return true;
     }

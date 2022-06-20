@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>cn.yescallop.essentialsnk</groupId>
     <artifactId>essentialsnk</artifactId>
-    <version>1.9.2-IGN.8</version>
+    <version>1.9.2-IGN.9</version>
 
     <name>EssentialsNK</name>
     <description>Essential commands for your server</description>
@@ -38,9 +38,11 @@
     <dependencies>
         <dependency>
             <groupId>cn.nukkit</groupId>
-            <artifactId>nukkit</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>provided</scope>
+            <artifactId>NukkitX-IGN</artifactId>
+            <version>PM1E</version>
+            <optional>false</optional>
+            <scope>system</scope>
+            <systemPath>${basedir}/production.jar</systemPath>
         </dependency>
     </dependencies>
 

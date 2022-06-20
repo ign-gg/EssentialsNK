@@ -179,7 +179,7 @@ public class EssentialsAPI {
             tpCooldowns.add(new TPCooldown(player, location,
                     System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(cooldown.getAsInt()), message));
         } else {
-            player.teleport(location);
+            player.level.threadedExecutor.execute(() -> player.teleport(location));
             player.sendMessage(message);
         }
     }

@@ -38,7 +38,7 @@ public class TPHereCommand extends CommandBase {
             sender.sendMessage(TextFormat.RED + Language.translate("commands.generic.player.notfound", args[0]));
             return false;
         }
-        player.teleport((Player) sender);
+        player.level.threadedExecutor.execute(() -> player.teleport((Player) sender));
         player.sendMessage(Language.translate("commands.tphere.other", ((Player) sender).getDisplayName()));
         sender.sendMessage(Language.translate("commands.tphere.success", player.getDisplayName()));
         return true;

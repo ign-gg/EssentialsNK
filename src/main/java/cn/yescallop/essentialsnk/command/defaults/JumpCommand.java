@@ -35,7 +35,7 @@ public class JumpCommand extends CommandBase {
             sender.sendMessage(TextFormat.RED + Language.translate("commands.jump.unreachable"));
             return false;
         }
-        player.teleport(api.getStandablePositionAt(block));
+        player.level.threadedExecutor.execute(() -> player.teleport(api.getStandablePositionAt(block)));
         return true;
     }
 }
