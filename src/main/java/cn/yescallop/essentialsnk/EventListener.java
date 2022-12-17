@@ -1,8 +1,10 @@
 package cn.yescallop.essentialsnk;
 
 import cn.nukkit.Player;
+import cn.nukkit.Server;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.event.EventHandler;
+import cn.nukkit.event.EventPriority;
 import cn.nukkit.event.Listener;
 import cn.nukkit.event.player.*;
 
@@ -16,12 +18,14 @@ public class EventListener implements Listener {
         this.api = api;
     }
 
-    /*@EventHandler(ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onPlayerTeleport(PlayerTeleportEvent event) {
-        api.setLastLocation(event.getPlayer(), event.getFrom());
-    }*/
+        if (Server.sbpeTweaks) {
+            api.setLastLocation(event.getPlayer(), event.getFrom());
+        }
+    }
 
-    /*@EventHandler(ignoreCancelled = true)
+    /*@EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onPlayerBedEnter(PlayerBedEnterEvent event) {
         Block bed = event.getBed();
         api.setHome(event.getPlayer(), "bed", Location.fromObject(bed, bed.level, 0, 0));
@@ -43,9 +47,12 @@ public class EventListener implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         api.removeTPRequest(event.getPlayer());
+        if (Server.sbpeTweaks) {
+            api.setLastLocation(event.getPlayer(), null);
+        }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOW)
     public void onPlayerChat(PlayerChatEvent event) {
         Player player = event.getPlayer();
         Iterator<CommandSender> iter = event.getRecipients().iterator();
@@ -67,7 +74,7 @@ public class EventListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
         Player player = event.getPlayer();
         if (api.isMuted(player)) {

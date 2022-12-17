@@ -15,9 +15,9 @@ import java.util.regex.Pattern;
 //Copyleft: Lin Mulan(林木兰). Zhejiang, China
 class LMLDP$Lang$Chinese implements LMLDP$Lang {
 
-    private static String timePattern = "^((.*)纪)?((.*)年)?((.*)月)?((.*)周)?((.*)日)?((.*)时)?((.*)分)?((.*)秒)?((.*)半)?$";
-    private static Pattern time = Pattern.compile(timePattern);
-    private static Pattern p = Pattern.compile("^[0-9]+$");
+    private static final String timePattern = "^((.*)纪)?((.*)年)?((.*)月)?((.*)周)?((.*)日)?((.*)时)?((.*)分)?((.*)秒)?((.*)半)?$";
+    private static final Pattern time = Pattern.compile(timePattern);
+    private static final Pattern p = Pattern.compile("^[0-9]+$");
 
     private static String replaceLikeThis(String s) {
         s = s.replace("世纪", "纪").replace("小时", "时").replace("分钟", "分").replace("秒钟", "秒")

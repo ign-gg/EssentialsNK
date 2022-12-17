@@ -19,7 +19,7 @@ public class TPAcceptCommand extends CommandBase {
         // command parameters
         commandParameters.clear();
         this.commandParameters.put("default", new CommandParameter[] {
-                new CommandParameter("player", CommandParamType.TARGET, false) // true
+                new CommandParameter("player", CommandParamType.TARGET, true)
         });
     }
 
@@ -30,7 +30,7 @@ public class TPAcceptCommand extends CommandBase {
         if (!this.testIngame(sender)) {
             return false;
         }
-        if (args.length != 1) { // > 1
+        if (args.length > 1) {
             this.sendUsage(sender);
             return false;
         }
@@ -46,7 +46,7 @@ public class TPAcceptCommand extends CommandBase {
                 sender.sendMessage(TextFormat.RED + Language.translate("commands.tpaccept.unavailable"));
                 return false;
             }
-            to.sendActionBar("§e[!] It is recommended to always specify which teleport request to accept using §a/tpaccept <player>");
+            to.sendActionBar("§e[§c!§e] It is recommended to always specify which teleport request to accept using §a/tpaccept <player>");
             from = request.getSender();
         } else {
             from = api.getServer().getPlayer(args[0]);

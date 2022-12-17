@@ -51,9 +51,9 @@ public class IgnoreCommand extends CommandBase {
         }
 
         if (api.ignore(player.getUniqueId(), toIgnore.getUniqueId())) {
-            sender.sendMessage("Successfully ignored");
+            sender.sendMessage("§aSuccessfully ignored §e" + toIgnore.getName());
         } else {
-            sender.sendMessage("Successfully un-ignored");
+            sender.sendMessage("§aSuccessfully un-ignored §e" + toIgnore.getName());
         }
         return true;
     }

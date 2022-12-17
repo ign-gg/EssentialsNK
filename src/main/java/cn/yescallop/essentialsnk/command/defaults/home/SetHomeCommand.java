@@ -35,7 +35,7 @@ public class SetHomeCommand extends CommandBase {
             this.sendUsage(sender);
             return false;
         }
-        if (args[0].toLowerCase().equals("bed")) {
+        if (args[0].equalsIgnoreCase("bed")) {
             sender.sendMessage(TextFormat.RED + Language.translate("commands.sethome.bed"));
             return false;
         } else if (args[0].trim().equals("")) {

@@ -36,7 +36,7 @@ public class GamemodeCommand extends CommandBase {
         }
         Player player;
         int gamemode;
-        if (label.toLowerCase().equals("gamemode") || label.toLowerCase().equals("gm")) {
+        if (label.equalsIgnoreCase("gamemode") || label.equalsIgnoreCase("gm")) {
             if (args.length == 0 || args.length > 2) {
                 this.sendUsage(sender, label);
                 return false;
@@ -123,7 +123,7 @@ public class GamemodeCommand extends CommandBase {
 
     private void sendUsage(CommandSender sender, String label) {
         String usage;
-        if (label.toLowerCase().equals("gamemode") || label.toLowerCase().equals("gm")) {
+        if (label.equalsIgnoreCase("gamemode") || label.equalsIgnoreCase("gm")) {
             usage = Language.translate("commands.gamemode.usage1", label.toLowerCase());
         } else {
             usage = Language.translate("commands.gamemode.usage2", label.toLowerCase());

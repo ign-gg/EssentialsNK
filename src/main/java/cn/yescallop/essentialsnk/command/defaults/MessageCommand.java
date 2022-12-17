@@ -1,6 +1,7 @@
 package cn.yescallop.essentialsnk.command.defaults;
 
 import cn.nukkit.Player;
+import cn.nukkit.Server;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.command.data.CommandParamType;
 import cn.nukkit.command.data.CommandParameter;
@@ -11,11 +12,8 @@ import cn.yescallop.essentialsnk.Language;
 import cn.yescallop.essentialsnk.command.CommandBase;
 
 import java.util.Objects;
-import java.util.regex.Pattern;
 
 public class MessageCommand extends CommandBase {
-
-    private static final Pattern pattern = Pattern.compile("[^\\p{L}\\p{N}\\p{P}\\p{Z}\\p{Sm}\\p{Sc}\\p{Sk}]", Pattern.UNICODE_CHARACTER_CLASS);
 
     public MessageCommand(EssentialsAPI api) {
         super("message", api);
@@ -61,19 +59,18 @@ public class MessageCommand extends CommandBase {
             builder.append(args[i]).append(' ');
         }
 
-        if (builder.length() > 200) {
+        if (builder.length() > (Server.sbpeTweaks ? 255 : 200)) {
             sender.sendMessage(TextFormat.RED + "The message is too long");
             return true;
         } else if (builder.length() > 0) {
             builder = new StringBuilder(builder.substring(0, builder.length() - 1));
         }
 
-        String text = TextFormat.clean(builder.toString());
-        String m = "§5" + pattern.matcher(text).replaceAll("?");
+        String text = TextFormat.clean(builder.toString()).replaceAll("[\uE000-\uE0EA\n]", "?");
         String displayName = (sender instanceof Player ? ((Player) sender).getDisplayName() : sender.getName());
 
-        sender.sendMessage('[' + sender.getName() + " §7-> §f" + player.getDisplayName() + "] " + m);
-        player.sendMessage('[' + displayName + " §7-> §f" + player.getName() + "] " + m);
+        sender.sendMessage("§f[§7" + sender.getName() + " -> " + player.getDisplayName() + "§f] §r" + text);
+        player.sendMessage("§f[§7" + displayName + " -> " + player.getName() + "§f] §r" + text);
 
         api.getLastMessagedPlayers().put(sender.getName(), player.getName());
         api.getLastMessagedPlayers().put(player.getName(), sender.getName());

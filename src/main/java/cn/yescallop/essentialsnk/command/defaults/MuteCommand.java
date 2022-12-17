@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 
 public class MuteCommand extends CommandBase {
 
-    private static Pattern p = Pattern.compile("^[0-9]+$");
+    private static final Pattern p = Pattern.compile("^[0-9]+$");
 
     public MuteCommand(EssentialsAPI api) {
         super("mute", api);

@@ -45,15 +45,15 @@ public class EssentialsAPI {
             Block.POPPY, Block.BROWN_MUSHROOM, Block.RED_MUSHROOM, Block.TORCH, Block.FIRE, Block.WHEAT_BLOCK, Block.SIGN_POST, Block.WALL_SIGN, Block.SUGARCANE_BLOCK,
             Block.PUMPKIN_STEM, Block.MELON_STEM, Block.VINE, Block.CARROT_BLOCK, Block.POTATO_BLOCK, Block.DOUBLE_PLANT};
     private static EssentialsAPI instance = null;
-    private static Duration THIRTY_DAYS = Duration.ZERO.plusDays(30);
-    private Vector3 temporalVector = new Vector3();
-    private EssentialsNK plugin;
+    private static final Duration THIRTY_DAYS = Duration.ZERO.plusDays(30);
+    private final Vector3 temporalVector = new Vector3();
+    private final EssentialsNK plugin;
     private final Map<CommandSender, Long> cooldown = new IdentityHashMap<>();
     private final List<TPCooldown> tpCooldowns = new ArrayList<>();
-    private Map<Player, Location> playerLastLocation = new HashMap<>();
-    private Map<Integer, TPRequest> tpRequests = new /*Concurrent*/HashMap<>();
-    private List<Player> vanishedPlayers = new ArrayList<>();
-    private Map<String, String> lastMessagedPlayers = new HashMap<>();
+    private final Map<Player, Location> playerLastLocation = new HashMap<>();
+    private final Map<Integer, TPRequest> tpRequests = new /*Concurrent*/HashMap<>();
+    private final List<Player> vanishedPlayers = new ArrayList<>();
+    private final Map<String, String> lastMessagedPlayers = new HashMap<>();
 
     private final ConfigType homeConfig;
     private final ConfigType warpConfig;
@@ -97,7 +97,11 @@ public class EssentialsAPI {
     }
 
     public void setLastLocation(Player player, Location pos) {
-        this.playerLastLocation.put(player, pos);
+        if (pos == null) {
+            this.playerLastLocation.remove(player);
+        } else {
+            this.playerLastLocation.put(player, pos);
+        }
     }
 
     public Location getLastLocation(Player player) {

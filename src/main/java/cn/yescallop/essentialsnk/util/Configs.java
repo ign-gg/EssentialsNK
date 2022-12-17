@@ -89,7 +89,7 @@ public class Configs implements Closeable {
     private static class ConfigData {
         private final Config config;
         private final ConfigSection added;
-        private AtomicBoolean changed = new AtomicBoolean();
+        private final AtomicBoolean changed = new AtomicBoolean();
         private final Set<String> removed = new HashSet<>();
 
         private ConfigData(ConfigType configType) {

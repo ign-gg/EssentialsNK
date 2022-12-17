@@ -102,12 +102,11 @@ public class Language {
         for (int i = 0; i < len; ++i) {
             char c = text.charAt(i);
             if (replaceString != null) {
-                int ord = c;
-                if ((ord >= 0x30 && ord <= 0x39) // 0-9
-                        || (ord >= 0x41 && ord <= 0x5a) // A-Z
-                        || (ord >= 0x61 && ord <= 0x7a) || // a-z
+                if (((int) c >= 0x30 && (int) c <= 0x39) // 0-9
+                        || ((int) c >= 0x41 && (int) c <= 0x5a) // A-Z
+                        || ((int) c >= 0x61 && (int) c <= 0x7a) || // a-z
                         c == '.' || c == '-') {
-                    replaceString.append(String.valueOf(c));
+                    replaceString.append(c);
                 } else {
                     String t = internalGet(replaceString.substring(1));
                     if (t != null) {
@@ -119,13 +118,13 @@ public class Language {
                     if (c == '%') {
                         replaceString = new StringBuilder(String.valueOf(c));
                     } else {
-                        newString.append(String.valueOf(c));
+                        newString.append(c);
                     }
                 }
             } else if (c == '%') {
                 replaceString = new StringBuilder(String.valueOf(c));
             } else {
-                newString.append(String.valueOf(c));
+                newString.append(c);
             }
         }
 

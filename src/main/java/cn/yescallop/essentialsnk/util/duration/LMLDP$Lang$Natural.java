@@ -8,8 +8,8 @@ import java.util.regex.Pattern;
  */
 //Natural forms like 11:00:00(11 hours), 1:03(1 min 3 sec). HH:mm:ss, mm:ss, ss are supported
 class LMLDP$Lang$Natural implements LMLDP$Lang {
-    private static Pattern time = Pattern.compile("^[0-9]*:([0-5]?[0-9])(:([0-5]?[0-9]))?$");
-    private static Pattern positiveInteger = Pattern.compile("^[0-9]+$");
+    private static final Pattern time = Pattern.compile("^[0-9]*:([0-5]?[0-9])(:([0-5]?[0-9]))?$");
+    private static final Pattern positiveInteger = Pattern.compile("^[0-9]+$");
 
     private boolean isPositiveInteger(String a) {
         return positiveInteger.matcher(a).find();
@@ -29,11 +29,11 @@ class LMLDP$Lang$Natural implements LMLDP$Lang {
             long sec = 0L;
             String[] cut = s.split(":");
             if (cut.length == 3) {
-                sec += Integer.parseInt(cut[0]) * 3600;
-                sec += Integer.parseInt(cut[1]) * 60;
+                sec += Integer.parseInt(cut[0]) * 3600L;
+                sec += Integer.parseInt(cut[1]) * 60L;
                 sec += Integer.parseInt(cut[2]);
             } else { // length == 2
-                sec += Integer.parseInt(cut[0]) * 60;
+                sec += Integer.parseInt(cut[0]) * 60L;
                 sec += Integer.parseInt(cut[1]);
             }
             return Duration.ofSeconds(sec);
