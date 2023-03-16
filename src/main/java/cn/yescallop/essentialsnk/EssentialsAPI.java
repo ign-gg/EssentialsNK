@@ -530,7 +530,7 @@ public class EssentialsAPI {
 
     public Integer getRemainingTimeToUnmute(UUID uuid) {
         checkAndUpdateLegacyMute(uuid);
-        Long time = this.configs.get(this.muteConfig, uuid.toString(), 0L);
+        Integer time = this.configs.get(this.muteConfig, uuid.toString(), 0);
         return time == null ? null : (int) (time - Timestamp.valueOf(LocalDateTime.now()).getTime() / 1000);
     }
 
