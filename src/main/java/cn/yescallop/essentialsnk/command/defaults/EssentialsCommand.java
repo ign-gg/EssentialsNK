@@ -9,7 +9,7 @@ import cn.yescallop.essentialsnk.command.CommandBase;
 public class EssentialsCommand extends CommandBase {
     public EssentialsCommand(EssentialsAPI api) {
         super("essentials", api);
-        this.setAliases(new String[]{"ess"});
+        //this.setAliases(new String[]{"ess"});
         this.commandParameters.clear();
         this.commandParameters.put("defaults", new CommandParameter[]{
                 new CommandParameter("essOption", true, new String[]{"reload"})

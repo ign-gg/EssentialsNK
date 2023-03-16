@@ -20,7 +20,7 @@ public class MuteCommand extends CommandBase {
 
     public MuteCommand(EssentialsAPI api) {
         super("mute", api);
-        this.setAliases(new String[]{"silence"});
+        //this.setAliases(new String[]{"silence"});
 
         // command parameters
         commandParameters.clear();

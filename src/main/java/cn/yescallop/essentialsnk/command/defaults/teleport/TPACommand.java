@@ -13,7 +13,7 @@ public class TPACommand extends CommandBase {
 
     public TPACommand(EssentialsAPI api) {
         super("tpa", api);
-        this.setAliases(new String[]{"call", "tpask"});
+        //this.setAliases(new String[]{"call", "tpask"});
 
         // command parameters
         commandParameters.clear();

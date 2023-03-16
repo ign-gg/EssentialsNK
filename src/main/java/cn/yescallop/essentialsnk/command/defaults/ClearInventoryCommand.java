@@ -4,6 +4,8 @@ import cn.nukkit.Player;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.command.data.CommandParamType;
 import cn.nukkit.command.data.CommandParameter;
+import cn.nukkit.nbt.tag.CompoundTag;
+import cn.nukkit.nbt.tag.ListTag;
 import cn.nukkit.utils.TextFormat;
 import cn.yescallop.essentialsnk.EssentialsAPI;
 import cn.yescallop.essentialsnk.Language;
@@ -13,7 +15,7 @@ public class ClearInventoryCommand extends CommandBase {
 
     public ClearInventoryCommand(EssentialsAPI api) {
         super("clearinventory", api);
-        this.setAliases(new String[]{"ci", "clean", "clearinvent"});
+        //this.setAliases(new String[]{"ci", "clean", "clearinvent"});
 
         // command parameters
         commandParameters.clear();
@@ -43,6 +45,18 @@ public class ClearInventoryCommand extends CommandBase {
             }
             player = api.getServer().getPlayer(args[0]);
             if (player == null) {
+                String offlinePlayer = args[0].toLowerCase();
+                CompoundTag offlineData = sender.getServer().getOfflinePlayerData(offlinePlayer, false);
+                if (offlineData != null) {
+                    if (offlineData.contains("Inventory") && offlineData.get("Inventory") instanceof ListTag) {
+                        offlineData.remove("Inventory");
+                        sender.getServer().saveOfflinePlayerData(offlinePlayer, offlineData);
+                        sender.sendMessage("Offline player inventory cleared: " + offlinePlayer);
+                    } else {
+                        sender.sendMessage(TextFormat.RED + "Offline player data has no 'Inventory' tag: " + offlinePlayer);
+                    }
+                    return true;
+                }
                 sender.sendMessage(TextFormat.RED + Language.translate("commands.generic.player.notfound", args[0]));
                 return false;
             }

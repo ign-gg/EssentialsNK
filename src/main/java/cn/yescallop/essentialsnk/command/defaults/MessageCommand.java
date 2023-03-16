@@ -48,7 +48,11 @@ public class MessageCommand extends CommandBase {
         }
 
         if (sender instanceof Player) {
-            if (api.isIgnoring(player.getUniqueId(), ((Player) sender).getUniqueId())) {
+            Player sePlayer = (Player) sender;
+            if (api.isMuted(sePlayer)) {
+                sePlayer.sendMessage(Language.translate("commands.generic.muted", api.getUnmuteTimeMessage(sePlayer)));
+            }
+            if (api.isIgnoring(player.getUniqueId(), sePlayer.getUniqueId())) {
                 sender.sendMessage(TextFormat.RED + "This player doesn't allow private messages from you");
                 return true;
             }

@@ -13,7 +13,7 @@ public class SetWarpCommand extends CommandBase {
 
     public SetWarpCommand(EssentialsAPI api) {
         super("setwarp", api);
-        this.setAliases(new String[]{"createwarp"});
+        //this.setAliases(new String[]{"createwarp"});
 
         // command parameters
         commandParameters.clear();

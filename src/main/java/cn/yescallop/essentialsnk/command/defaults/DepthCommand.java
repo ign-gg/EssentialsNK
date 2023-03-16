@@ -10,7 +10,7 @@ public class DepthCommand extends CommandBase {
 
     public DepthCommand(EssentialsAPI api) {
         super("depth", api);
-        this.setAliases(new String[]{"height"});
+        //this.setAliases(new String[]{"height"});
 
         // command parameters
         commandParameters.clear();

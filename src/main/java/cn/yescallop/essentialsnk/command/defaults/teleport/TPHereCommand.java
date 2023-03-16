@@ -13,7 +13,7 @@ public class TPHereCommand extends CommandBase {
 
     public TPHereCommand(EssentialsAPI api) {
         super("tphere", api);
-        this.setAliases(new String[]{"s"});
+        //this.setAliases(new String[]{"s"});
 
         // command parameters
         commandParameters.clear();

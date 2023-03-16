@@ -13,7 +13,7 @@ public class VanishCommand extends CommandBase {
 
     public VanishCommand(EssentialsAPI api) {
         super("vanish", api);
-        this.setAliases(new String[]{"v"});
+        //this.setAliases(new String[]{"v"});
 
         // command parameters
         commandParameters.clear();

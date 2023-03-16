@@ -13,7 +13,7 @@ public class ExtinguishCommand extends CommandBase {
 
     public ExtinguishCommand(EssentialsAPI api) {
         super("extinguish", api);
-        this.setAliases(new String[]{"ext"});
+        //this.setAliases(new String[]{"ext"});
 
         // command parameters
         commandParameters.clear();

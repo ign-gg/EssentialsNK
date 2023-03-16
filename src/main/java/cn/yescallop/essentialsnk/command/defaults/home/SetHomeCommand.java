@@ -15,7 +15,7 @@ public class SetHomeCommand extends CommandBase {
 
     public SetHomeCommand(EssentialsAPI api) {
         super("sethome", api);
-        this.setAliases(new String[]{"createhome"});
+        //this.setAliases(new String[]{"createhome"});
 
         // command parameters
         commandParameters.clear();

@@ -74,12 +74,12 @@ public class EventListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    /*@EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
         Player player = event.getPlayer();
         if (api.isMuted(player)) {
             event.setCancelled();
             player.sendMessage(Language.translate("commands.generic.muted", api.getUnmuteTimeMessage(player)));
         }
-    }
+    }*/
 }

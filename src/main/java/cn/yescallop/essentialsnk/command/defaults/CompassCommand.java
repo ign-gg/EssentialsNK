@@ -10,7 +10,7 @@ public class CompassCommand extends CommandBase {
 
     public CompassCommand(EssentialsAPI api) {
         super("compass", api);
-        this.setAliases(new String[]{"direction"});
+        //this.setAliases(new String[]{"direction"});
 
         // command parameters
         commandParameters.clear();

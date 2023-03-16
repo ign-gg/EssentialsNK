@@ -15,7 +15,7 @@ public class RenameCommand extends CommandBase {
 
     public RenameCommand(EssentialsAPI api) {
         super("rename", api);
-        this.setAliases(new String[]{"renameme"});
+        //this.setAliases(new String[]{"renameme"});
 
 
         // command parameters

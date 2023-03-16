@@ -26,7 +26,7 @@ public class WhoisCommand extends CommandBase {
 
     public WhoisCommand(EssentialsAPI api) {
         super("whois", api);
-        this.setAliases(new String[]{"whoiss"});
+        //this.setAliases(new String[]{"whoiss"});
         this.setUsage("/whois <name|uuid>");
         this.setPermission("essentialsnk.whois");
 

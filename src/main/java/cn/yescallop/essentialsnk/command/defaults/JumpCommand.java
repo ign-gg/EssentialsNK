@@ -12,7 +12,7 @@ public class JumpCommand extends CommandBase {
 
     public JumpCommand(EssentialsAPI api) {
         super("jump", api);
-        this.setAliases(new String[]{"j", "jumpto"});
+        //this.setAliases(new String[]{"j", "jumpto"});
 
         // command parameters
         commandParameters.clear();

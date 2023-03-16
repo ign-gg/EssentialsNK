@@ -12,7 +12,7 @@ public class ItemDBCommand extends CommandBase {
 
     public ItemDBCommand(EssentialsAPI api) {
         super("itemdb", api);
-        this.setAliases(new String[]{"itemno", "durability", "dura"});
+        //this.setAliases(new String[]{"itemno", "durability", "dura"});
 
         // command parameters
         commandParameters.clear();

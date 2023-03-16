@@ -10,7 +10,7 @@ public class BroadcastCommand extends CommandBase {
 
     public BroadcastCommand(EssentialsAPI api) {
         super("broadcast", api);
-        this.setAliases(new String[]{"bcast"});
+        //this.setAliases(new String[]{"bcast"});
 
         // command parameters
         commandParameters.clear();

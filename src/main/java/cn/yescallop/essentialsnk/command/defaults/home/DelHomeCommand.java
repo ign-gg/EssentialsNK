@@ -13,7 +13,7 @@ public class DelHomeCommand extends CommandBase {
 
     public DelHomeCommand(EssentialsAPI api) {
         super("delhome", api);
-        this.setAliases(new String[]{"remhome", "rmhome"});
+        //this.setAliases(new String[]{"remhome", "rmhome"});
 
         // command parameters
         commandParameters.clear();
