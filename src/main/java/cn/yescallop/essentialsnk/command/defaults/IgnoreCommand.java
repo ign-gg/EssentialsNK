@@ -48,6 +48,7 @@ public class IgnoreCommand extends CommandBase {
         }
         if (toIgnore == player) {
             sender.sendMessage(TextFormat.RED + Language.translate("commands.ignore.self"));
+            return true;
         }
 
         if (api.ignore(player.getUniqueId(), toIgnore.getUniqueId())) {

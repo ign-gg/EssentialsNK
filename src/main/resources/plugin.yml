@@ -1,4 +1,4 @@
-name: ${project.name}
+name: EssentialsNK
 version: ${project.version}
 api: ["1.0.8"]
 author: Scallop
