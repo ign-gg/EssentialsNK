@@ -9,9 +9,11 @@ public class EssentialsNK extends PluginBase {
 
     private EssentialsAPI api;
     private TaskHandler task;
+    public static EssentialsNK instance;
 
     @Override
     public void onEnable() {
+        instance = this;
         this.getDataFolder().mkdirs();
         Language.load(this.getServer().getLanguage().getLang());
         this.api = new EssentialsAPI(this);

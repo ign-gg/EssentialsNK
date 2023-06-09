@@ -8,6 +8,7 @@ import cn.nukkit.nbt.tag.CompoundTag;
 import cn.nukkit.nbt.tag.ListTag;
 import cn.nukkit.utils.TextFormat;
 import cn.yescallop.essentialsnk.EssentialsAPI;
+import cn.yescallop.essentialsnk.EssentialsNK;
 import cn.yescallop.essentialsnk.Language;
 import cn.yescallop.essentialsnk.command.CommandBase;
 
@@ -43,8 +44,13 @@ public class ClearInventoryCommand extends CommandBase {
                 this.sendPermissionMessage(sender);
                 return false;
             }
-            player = api.getServer().getPlayer(args[0]);
+            player = api.getServer().getPlayerExact(args[0]);
             if (player == null) {
+                if (!sender.hasPermission("essentialsnk.clearinventory.others.offline")) {
+                    sender.sendMessage(TextFormat.RED + Language.translate("commands.generic.player.notfound", args[0]));
+                    return false;
+                }
+
                 String offlinePlayer = args[0].toLowerCase();
                 CompoundTag offlineData = sender.getServer().getOfflinePlayerData(offlinePlayer, false);
                 if (offlineData != null) {
@@ -52,6 +58,7 @@ public class ClearInventoryCommand extends CommandBase {
                         offlineData.remove("Inventory");
                         sender.getServer().saveOfflinePlayerData(offlinePlayer, offlineData);
                         sender.sendMessage("Offline player inventory cleared: " + offlinePlayer);
+                        EssentialsNK.instance.getLogger().warning(sender.getName() + " cleared the inventory of offline player " + offlinePlayer);
                     } else {
                         sender.sendMessage(TextFormat.RED + "Offline player data has no 'Inventory' tag: " + offlinePlayer);
                     }
@@ -66,6 +73,7 @@ public class ClearInventoryCommand extends CommandBase {
         if (sender != player) {
             sender.sendMessage(Language.translate("commands.clearinventory.success.other", player.getDisplayName()));
         }
+        EssentialsNK.instance.getLogger().warning(sender.getName() + " cleared the inventory of " + player.getName());
         return true;
     }
 }

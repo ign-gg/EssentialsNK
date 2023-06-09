@@ -20,6 +20,8 @@ permissions:
     default: op
   essentialsnk.clearinventory.others:
     default: op
+  essentialsnk.clearinventory.others.offline:
+    default: op
   essentialsnk.compass:
     default: op
   essentialsnk.delhome:
