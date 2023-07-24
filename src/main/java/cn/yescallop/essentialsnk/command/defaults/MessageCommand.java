@@ -73,8 +73,8 @@ public class MessageCommand extends CommandBase {
         String text = TextFormat.clean(builder.toString()).replaceAll("[\uE000-\uE0EA\n]", "?");
         String displayName = (sender instanceof Player ? ((Player) sender).getDisplayName() : sender.getName());
 
-        sender.sendMessage("§f[§7" + sender.getName() + " -> " + player.getDisplayName() + "§f] §r" + text);
-        player.sendMessage("§f[§7" + displayName + " -> " + player.getName() + "§f] §r" + text);
+        sender.sendMessage('[' + sender.getName() + " -> " + player.getDisplayName() + "] " + text);
+        player.sendMessage('[' + displayName + " -> " + player.getName() + "] " + text);
 
         api.getLastMessagedPlayers().put(sender.getName(), player.getName());
         api.getLastMessagedPlayers().put(player.getName(), sender.getName());
