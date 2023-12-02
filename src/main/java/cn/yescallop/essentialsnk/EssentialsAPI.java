@@ -100,12 +100,19 @@ public class EssentialsAPI {
         if (pos == null) {
             this.playerLastLocation.remove(player);
         } else {
-            this.playerLastLocation.put(player, pos);
+            if (pos.getLevel() != null && pos.getLevel().getProvider() != null) {
+                this.playerLastLocation.put(player, pos);
+            }
         }
     }
 
     public Location getLastLocation(Player player) {
-        return this.playerLastLocation.get(player);
+        Location lastLoc = this.playerLastLocation.get(player);
+        if (lastLoc != null && lastLoc.getLevel().getProvider() == null) {
+            this.playerLastLocation.remove(player);
+            return null;
+        }
+        return lastLoc;
     }
 
     public boolean hasCooldown(CommandSender sender) {
