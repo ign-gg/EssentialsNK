@@ -20,7 +20,7 @@ public class EventListener implements Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onPlayerTeleport(PlayerTeleportEvent event) {
-        if (Server.sbpeTweaks || !Server.spawnProtectionMsg.isEmpty()) { // sbpe or pvp
+        if (Server.sbpeTweaks || Server.pvpServer) {
             api.setLastLocation(event.getPlayer(), event.getFrom());
         }
     }
@@ -47,7 +47,7 @@ public class EventListener implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         api.removeTPRequest(event.getPlayer());
-        if (Server.sbpeTweaks || !Server.spawnProtectionMsg.isEmpty()) { // sbpe or pvp
+        if (Server.sbpeTweaks || Server.pvpServer) {
             api.setLastLocation(event.getPlayer(), null);
         }
     }
