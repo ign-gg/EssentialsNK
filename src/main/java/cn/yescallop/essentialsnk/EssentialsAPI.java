@@ -52,7 +52,7 @@ public class EssentialsAPI {
     private final List<TPCooldown> tpCooldowns = new ArrayList<>();
     private final Map<Player, Location> playerLastLocation = new HashMap<>();
     private final Map<Integer, TPRequest> tpRequests = new /*Concurrent*/HashMap<>();
-    private final List<Player> vanishedPlayers = new ArrayList<>();
+    private final Set<Long> vanishedPlayers = new HashSet<>();
     private final Map<String, String> lastMessagedPlayers = new HashMap<>();
 
     private final ConfigType homeConfig;
@@ -218,16 +218,16 @@ public class EssentialsAPI {
         boolean vanished = this.isVanished(player);
         if (vanished) {
             this.setVanished(player, false);
-            vanishedPlayers.remove(player);
+            vanishedPlayers.remove(player.getId());
         } else {
             this.setVanished(player, true);
-            vanishedPlayers.add(player);
+            vanishedPlayers.add(player.getId());
         }
         return !vanished;
     }
 
     public boolean isVanished(Player player) {
-        return vanishedPlayers.contains(player);
+        return vanishedPlayers.contains(player.getId());
     }
 
     public void setVanished(Player player, boolean vanished) {
