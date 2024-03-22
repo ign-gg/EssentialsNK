@@ -35,7 +35,7 @@ public class TPAAllCommand extends CommandBase {
             }
             player = (Player) sender;
         } else if (args.length == 1) {
-            player = api.getServer().getPlayer(args[0]);
+            player = api.getServer().getPlayerExact(args[0]);
             if (player == null) {
                 sender.sendMessage(TextFormat.RED + Language.translate("commands.generic.player.notfound", args[0]));
                 return false;

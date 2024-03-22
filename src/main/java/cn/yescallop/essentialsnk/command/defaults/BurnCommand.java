@@ -30,7 +30,7 @@ public class BurnCommand extends CommandBase {
             this.sendUsage(sender);
             return false;
         }
-        Player player = api.getServer().getPlayer(args[0]);
+        Player player = api.getServer().getPlayerExact(args[0]);
         if (player == null) {
             sender.sendMessage(TextFormat.RED + Language.translate("commands.generic.player.notfound", args[0]));
             return false;

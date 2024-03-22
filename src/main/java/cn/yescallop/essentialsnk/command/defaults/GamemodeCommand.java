@@ -51,7 +51,7 @@ public class GamemodeCommand extends CommandBase {
                     this.sendPermissionMessage(sender);
                     return false;
                 }
-                player = api.getServer().getPlayer(args[1]);
+                player = api.getServer().getPlayerExact(args[1]);
                 if (player == null) {
                     sender.sendMessage(TextFormat.RED + Language.translate("commands.generic.player.notfound", args[1]));
                     return false;
@@ -77,7 +77,7 @@ public class GamemodeCommand extends CommandBase {
                     this.sendPermissionMessage(sender);
                     return false;
                 }
-                player = api.getServer().getPlayer(args[0]);
+                player = api.getServer().getPlayerExact(args[0]);
                 if (player == null) {
                     sender.sendMessage(TextFormat.RED + Language.translate("commands.generic.player.notfound", args[0]));
                     return false;

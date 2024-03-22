@@ -54,7 +54,7 @@ public class SpawnCommand extends CommandBase {
         if (args.length == 0) {
             p = (Player) sender;
         } else {
-            p = getAPI().getServer().getPlayer(args[0]);
+            p = getAPI().getServer().getPlayerExact(args[0]);
         }
 
         if (p == null || !p.isOnline()) {

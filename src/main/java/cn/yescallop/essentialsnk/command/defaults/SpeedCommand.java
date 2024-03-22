@@ -45,7 +45,7 @@ public class SpeedCommand extends CommandBase {
                 this.sendPermissionMessage(sender);
                 return false;
             }
-            player = api.getServer().getPlayer(args[1]);
+            player = api.getServer().getPlayerExact(args[1]);
         } else if (!this.testIngame(sender)) {
             return false;
         } else {
