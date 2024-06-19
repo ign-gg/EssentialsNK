@@ -3,9 +3,6 @@ package cn.yescallop.essentialsnk.command;
 import cn.nukkit.command.CommandMap;
 import cn.yescallop.essentialsnk.EssentialsAPI;
 import cn.yescallop.essentialsnk.command.defaults.*;
-import cn.yescallop.essentialsnk.command.defaults.home.DelHomeCommand;
-import cn.yescallop.essentialsnk.command.defaults.home.HomeCommand;
-import cn.yescallop.essentialsnk.command.defaults.home.SetHomeCommand;
 import cn.yescallop.essentialsnk.command.defaults.teleport.*;
 import cn.yescallop.essentialsnk.command.defaults.warp.DelWarpCommand;
 import cn.yescallop.essentialsnk.command.defaults.warp.SetWarpCommand;
@@ -15,7 +12,6 @@ public class CommandManager {
 
     public static void registerAll(EssentialsAPI api) {
         CommandMap map = api.getServer().getCommandMap();
-        map.register("EssentialsNK", new EssentialsCommand(api));
 
         map.register("EssentialsNK", new BackCommand(api));
         map.register("EssentialsNK", new BreakCommand(api));
@@ -38,7 +34,6 @@ public class CommandManager {
         map.register("EssentialsNK", new MessageCommand(api));
         map.register("EssentialsNK", new MoreCommand(api));
         map.register("EssentialsNK", new MuteCommand(api));
-        map.register("EssentialsNK", new PingCommand(api));
         map.register("EssentialsNK", new RealNameCommand(api));
         map.register("EssentialsNK", new RepairCommand(api));
         map.register("EssentialsNK", new ReplyCommand(api));
@@ -48,10 +43,6 @@ public class CommandManager {
         map.register("EssentialsNK", new VanishCommand(api));
         map.register("EssentialsNK", new WorldCommand(api));
         map.register("EssentialsNK", new WhoisCommand(api));
-
-        map.register("EssentialsNK", new DelHomeCommand(api));
-        map.register("EssentialsNK", new HomeCommand(api));
-        map.register("EssentialsNK", new SetHomeCommand(api));
 
         map.register("EssentialsNK", new TPACommand(api));
         map.register("EssentialsNK", new TPAAllCommand(api));

@@ -19,7 +19,6 @@ public class EssentialsNK extends PluginBase {
         this.api = new EssentialsAPI(this);
         CommandManager.registerAll(this.api);
         this.getServer().getPluginManager().registerEvents(new EventListener(this.api), this);
-        this.getLogger().info(Language.translate("essentialsnk.loaded"));
         task = this.getServer().getScheduler().scheduleRepeatingTask(this, new TeleportationTask(api), 1);
     }
 

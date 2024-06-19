@@ -55,9 +55,9 @@ public class EssentialsAPI {
     private final Set<String> vanishedPlayers = new HashSet<>();
     private final Map<String, String> lastMessagedPlayers = new HashMap<>();
 
-    private final ConfigType homeConfig;
+    private final ConfigType homeConfig = null;
     private final ConfigType warpConfig;
-    private final ConfigType muteConfig;
+    private final ConfigType muteConfig = null;
     private final ConfigType ignoreConfig;
     private final Configs configs;
 
@@ -65,17 +65,16 @@ public class EssentialsAPI {
         instance = this;
         this.plugin = plugin;
 
-        this.homeConfig = new ConfigType(new File(plugin.getDataFolder(), "home.yml"), Config.YAML);
         this.warpConfig = new ConfigType(new File(plugin.getDataFolder(), "warp.yml"), Config.YAML);
-        this.muteConfig = new ConfigType(new File(plugin.getDataFolder(), "mute.yml"), Config.YAML);
         this.ignoreConfig = new ConfigType(new File(plugin.getDataFolder(), "ignore.yml"), Config.YAML);
-        Set<ConfigType> configTypes = ImmutableSet.of(this.homeConfig, this.warpConfig, this.muteConfig, this.ignoreConfig);
+        Set<ConfigType> configTypes = ImmutableSet.of(this.warpConfig, this.ignoreConfig);
         this.configs = new Configs(plugin, configTypes);
 
         this.plugin.getServer().getScheduler().scheduleDelayedRepeatingTask(this.plugin, new TeleportationExpireTask(),
                 100, 100);//20, 20, true
     }
 
+    @SuppressWarnings("unused")
     public static EssentialsAPI getInstance() {
         return instance;
     }
@@ -519,7 +518,6 @@ public class EssentialsAPI {
     }
 
     public boolean mute(UUID uuid, Duration duration) {
-        checkAndUpdateLegacyMute(uuid);
         if (duration.isNegative() || duration.isZero()) return false;
         // t>30 => (t!=30 && t>=30) => (t!=30 && t-30>=0) => (t!=30 && !(t-30<0))
         if (duration.toDays() != 30 && !(duration.minus(THIRTY_DAYS).isNegative())) return false; // t>30
@@ -536,7 +534,6 @@ public class EssentialsAPI {
     }
 
     public Integer getRemainingTimeToUnmute(UUID uuid) {
-        checkAndUpdateLegacyMute(uuid);
         Integer time = this.configs.get(this.muteConfig, uuid.toString(), 0);
         return time == null ? null : (int) (time - Timestamp.valueOf(LocalDateTime.now()).getTime() / 1000);
     }
@@ -550,7 +547,7 @@ public class EssentialsAPI {
     }
 
     public boolean isMuted(UUID uuid) {
-        checkAndUpdateLegacyMute(uuid);
+        if (true) return false;
         Integer time = this.getRemainingTimeToUnmute(uuid);
         if (time == null) return false;
         if (time <= 0) {
@@ -583,7 +580,6 @@ public class EssentialsAPI {
     }
 
     public void unmute(UUID uuid) {
-        checkAndUpdateLegacyMute(uuid);
         this.configs.remove(this.muteConfig, uuid.toString());
     }
 
@@ -595,29 +591,6 @@ public class EssentialsAPI {
      */
     public Map<String, String> getLastMessagedPlayers() {
         return lastMessagedPlayers;
-    }
-
-    private void checkAndUpdateLegacyMute(UUID uuid) {
-        IPlayer player = getServer().getOfflinePlayer(uuid);
-        if (player == null) {
-            return;
-        }
-        String uuidString = player.getUniqueId().toString();
-        String name = player.getName().toLowerCase();
-        if (this.configs.exists(this.muteConfig, name)) {
-            if (this.configs.exists(this.muteConfig, uuidString)) {
-                ConfigSection newSection = this.configs.get(this.muteConfig, uuidString, new ConfigSection());
-                ConfigSection oldSection = this.configs.get(this.muteConfig, name, new ConfigSection());
-                oldSection.forEach((s, o) -> {
-                    if (!newSection.containsKey(s)) {
-                        newSection.put(s, o);
-                    }
-                });
-                this.configs.remove(this.muteConfig, name);
-            } else {
-                this.configs.set(this.muteConfig, uuidString, this.configs.get(this.muteConfig, name, new ConfigSection()));
-            }
-        }
     }
 
     // Scallop: Thanks lmlstarqaq

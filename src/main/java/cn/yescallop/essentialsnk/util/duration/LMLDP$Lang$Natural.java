@@ -11,10 +11,6 @@ class LMLDP$Lang$Natural implements LMLDP$Lang {
     private static final Pattern time = Pattern.compile("^[0-9]*:([0-5]?[0-9])(:([0-5]?[0-9]))?$");
     private static final Pattern positiveInteger = Pattern.compile("^[0-9]+$");
 
-    private boolean isPositiveInteger(String a) {
-        return positiveInteger.matcher(a).find();
-    }
-
     @Override
     public boolean identify(String s) {
         s = s.replace("：", ":");

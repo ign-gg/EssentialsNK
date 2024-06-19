@@ -74,7 +74,7 @@ public class Configs implements Closeable {
         public void run() {
             for (ConfigData data : Configs.this.configs.values()) {
                 if (data.changed.compareAndSet(true, false)) {
-                    data.config.reload();
+                    //data.config.reload();
                     for (String key : data.removed) {
                         data.config.remove(key);
                     }
