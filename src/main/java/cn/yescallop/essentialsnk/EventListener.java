@@ -25,12 +25,6 @@ public class EventListener implements Listener {
         }
     }
 
-    /*@EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
-    public void onPlayerBedEnter(PlayerBedEnterEvent event) {
-        Block bed = event.getBed();
-        api.setHome(event.getPlayer(), "bed", Location.fromObject(bed, bed.level, 0, 0));
-    }*/
-
     @EventHandler(ignoreCancelled = true)
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
@@ -68,19 +62,5 @@ public class EventListener implements Listener {
                 iter.remove();
             }
         }
-
-        if (api.isMuted(player)) {
-            event.setCancelled();
-            player.sendMessage(Language.translate("commands.generic.muted", api.getUnmuteTimeMessage(player)));
-        }
     }
-
-    /*@EventHandler(priority = EventPriority.LOWEST)
-    public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
-        Player player = event.getPlayer();
-        if (api.isMuted(player)) {
-            event.setCancelled();
-            player.sendMessage(Language.translate("commands.generic.muted", api.getUnmuteTimeMessage(player)));
-        }
-    }*/
 }

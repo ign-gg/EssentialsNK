@@ -10,10 +10,8 @@ import java.util.List;
 public final class LMLDurationParser {
     private static final List<LMLDP$Lang> lang = new ArrayList<LMLDP$Lang>() {{
         add(new LMLDP$Lang$Natural());
-        add(new LMLDP$Lang$Chinese());
     }};
 
-    //supported: Chinese
     public static Duration parse(String s) {
         final Duration[] res = {null};
         lang.forEach((al) -> {

@@ -54,7 +54,7 @@ public class Language {
             String content = Utils.readFile(stream);
             Map<String, String> d = new HashMap<>();
             for (String line : content.split("\n")) {
-                if (line.equals("") || line.charAt(0) == '#') {
+                if (line.isEmpty() || line.charAt(0) == '#') {
                     continue;
                 }
                 int splitIndex = line.indexOf('=');
