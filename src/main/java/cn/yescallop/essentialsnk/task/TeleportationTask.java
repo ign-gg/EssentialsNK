@@ -2,9 +2,6 @@ package cn.yescallop.essentialsnk.task;
 
 import cn.nukkit.scheduler.Task;
 import cn.yescallop.essentialsnk.EssentialsAPI;
-import cn.yescallop.essentialsnk.TPCooldown;
-
-import java.util.Iterator;
 
 public class TeleportationTask extends Task {
     private final EssentialsAPI api;
@@ -15,7 +12,7 @@ public class TeleportationTask extends Task {
 
     @Override
     public void onRun(int i) {
-        Iterator<TPCooldown> iter = api.getTpCooldowns().iterator();
+        /*Iterator<TPCooldown> iter = api.getTpCooldowns().iterator();
         long time = System.currentTimeMillis();
 
         while (iter.hasNext()) {
@@ -24,6 +21,6 @@ public class TeleportationTask extends Task {
                 cooldown.execute();
                 iter.remove();
             }
-        }
+        }*/
     }
 }

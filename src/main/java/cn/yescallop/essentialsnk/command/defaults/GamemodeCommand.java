@@ -15,7 +15,7 @@ public class GamemodeCommand extends CommandBase {
 
     public GamemodeCommand(EssentialsAPI api) {
         super("gamemode", api);
-        this.setAliases(new String[]{"gm", "gma", "gmc", "gms", "gmsp", "gmt", "adventure", "creative", "survival", "spectator", "viewer"});
+        this.setAliases(new String[]{"gm", "gma", "gmc", "gms", "gmsp", "gmt"/*, "adventure", "creative", "survival", "spectator", "viewer"*/});
 
         // command parameters
         commandParameters.clear();

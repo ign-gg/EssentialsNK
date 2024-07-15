@@ -1,14 +1,12 @@
 package cn.yescallop.essentialsnk;
 
 import cn.nukkit.plugin.PluginBase;
-import cn.nukkit.scheduler.TaskHandler;
 import cn.yescallop.essentialsnk.command.CommandManager;
-import cn.yescallop.essentialsnk.task.TeleportationTask;
 
 public class EssentialsNK extends PluginBase {
 
     private EssentialsAPI api;
-    private TaskHandler task;
+    //private TaskHandler task;
     public static EssentialsNK instance;
 
     @Override
@@ -19,11 +17,11 @@ public class EssentialsNK extends PluginBase {
         this.api = new EssentialsAPI(this);
         CommandManager.registerAll(this.api);
         this.getServer().getPluginManager().registerEvents(new EventListener(this.api), this);
-        task = this.getServer().getScheduler().scheduleRepeatingTask(this, new TeleportationTask(api), 1);
+        //task = this.getServer().getScheduler().scheduleRepeatingTask(this, new TeleportationTask(api), 1);
     }
 
-    @Override
+    /*@Override
     public void onDisable() {
         task.cancel();
-    }
+    }*/
 }

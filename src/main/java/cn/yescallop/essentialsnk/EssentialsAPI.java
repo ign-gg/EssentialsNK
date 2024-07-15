@@ -18,7 +18,6 @@ import cn.nukkit.nbt.tag.CompoundTag;
 import cn.nukkit.nbt.tag.DoubleTag;
 import cn.nukkit.nbt.tag.FloatTag;
 import cn.nukkit.nbt.tag.ListTag;
-import cn.nukkit.permission.PermissionAttachmentInfo;
 import cn.nukkit.plugin.PluginLogger;
 import cn.nukkit.utils.Config;
 import cn.nukkit.utils.ConfigSection;
@@ -31,29 +30,26 @@ import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class EssentialsAPI {
 
-    private static final int/*long*/ TP_EXPIRATION = 1200;//TimeUnit.MINUTES.toMillis(1);
-    private static final Pattern COOLDOWN_PATTERN = Pattern.compile("^essentialsnk\\.cooldown\\.([0-9]+)$", Pattern.CASE_INSENSITIVE);
-    private static final Pattern TP_COOLDOWN_PATTERN = Pattern.compile("^essentialsnk\\.tp\\.cooldown\\.([0-9]+)$", Pattern.CASE_INSENSITIVE);
-    private static final Pattern HOMES_PERMISSION_PATTERN = Pattern.compile("^essentialsnk\\.homes\\.([0-9]+)$", Pattern.CASE_INSENSITIVE);
+    private static final int/*long*/ TP_EXPIRATION = 1200;//TimeUnit.MINUTES.toMillis(1); -- ticks
+    //private static final Pattern COOLDOWN_PATTERN = Pattern.compile("^essentialsnk\\.cooldown\\.([0-9]+)$", Pattern.CASE_INSENSITIVE);
+    //private static final Pattern TP_COOLDOWN_PATTERN = Pattern.compile("^essentialsnk\\.tp\\.cooldown\\.([0-9]+)$", Pattern.CASE_INSENSITIVE);
+    //private static final Pattern HOMES_PERMISSION_PATTERN = Pattern.compile("^essentialsnk\\.homes\\.([0-9]+)$", Pattern.CASE_INSENSITIVE);
     public static final Integer[] NON_SOLID_BLOCKS = new Integer[]{Block.AIR, Block.SAPLING, Block.WATER, Block.STILL_WATER, Block.LAVA, Block.STILL_LAVA, Block.COBWEB, Block.TALL_GRASS, Block.BUSH, Block.DANDELION,
             Block.POPPY, Block.BROWN_MUSHROOM, Block.RED_MUSHROOM, Block.TORCH, Block.FIRE, Block.WHEAT_BLOCK, Block.SIGN_POST, Block.WALL_SIGN, Block.SUGARCANE_BLOCK,
             Block.PUMPKIN_STEM, Block.MELON_STEM, Block.VINE, Block.CARROT_BLOCK, Block.POTATO_BLOCK, Block.DOUBLE_PLANT};
-    private static EssentialsAPI instance = null;
+    private static EssentialsAPI instance;
     private static final Duration THIRTY_DAYS = Duration.ZERO.plusDays(30);
-    private final Vector3 temporalVector = new Vector3();
     private final EssentialsNK plugin;
-    private final Map<CommandSender, Long> cooldown = new IdentityHashMap<>();
+    //private final Map<CommandSender, Long> cooldown = new IdentityHashMap<>();
     private final List<TPCooldown> tpCooldowns = new ArrayList<>();
-    private final Map<Player, Location> playerLastLocation = new HashMap<>();
-    private final Map<Integer, TPRequest> tpRequests = new /*Concurrent*/HashMap<>();
-    private final Set<String> vanishedPlayers = new HashSet<>();
-    private final Map<String, String> lastMessagedPlayers = new HashMap<>();
+    private final Map<Player, Location> playerLastLocation = new ConcurrentHashMap<>();
+    private final Map<Integer, TPRequest> tpRequests = new ConcurrentHashMap<>();
+    private final Set<String> vanishedPlayers = ConcurrentHashMap.newKeySet();
+    private final Map<String, String> lastMessagedPlayers = new ConcurrentHashMap<>();
 
     private final ConfigType homeConfig = null;
     private final ConfigType warpConfig;
@@ -115,7 +111,7 @@ public class EssentialsAPI {
     }
 
     public boolean hasCooldown(CommandSender sender) {
-        long cooldown = Long.MAX_VALUE;
+        /*long cooldown = Long.MAX_VALUE;
         for (PermissionAttachmentInfo info : sender.getEffectivePermissions().values()) {
             Matcher matcher = COOLDOWN_PATTERN.matcher(info.getPermission());
             if (matcher.find()) {
@@ -137,11 +133,11 @@ public class EssentialsAPI {
                 sender.sendMessage(Language.translate("commands.generic.cooldown", timeLeft));
                 return true;
             }
-        }
+        }*/
         return false;
     }
 
-    private OptionalInt hasTPCooldown(Player player) {
+    /*private OptionalInt hasTPCooldown(Player player) {
         int cooldown = Integer.MAX_VALUE;
         for (PermissionAttachmentInfo info : player.getEffectivePermissions().values()) {
             Matcher matcher = TP_COOLDOWN_PATTERN.matcher(info.getPermission());
@@ -157,10 +153,10 @@ public class EssentialsAPI {
             return OptionalInt.of(cooldown);
         }
         return OptionalInt.empty();
-    }
+    }*/
 
     public OptionalInt getAllowedHomes(Player player) {
-        int homes = 0;
+        /*int homes = 0;
         for (PermissionAttachmentInfo info : player.getEffectivePermissions().values()) {
             Matcher matcher = HOMES_PERMISSION_PATTERN.matcher(info.getPermission());
             if (matcher.find()) {
@@ -173,7 +169,7 @@ public class EssentialsAPI {
 
         if (!player.isOp() && homes > 0) {
             return OptionalInt.of(homes);
-        }
+        }*/
         return OptionalInt.empty();
     }
 
@@ -182,16 +178,16 @@ public class EssentialsAPI {
     }
 
     public void onTP(Player player, Location location, String message) {
-        OptionalInt cooldown = hasTPCooldown(player);
+        /*OptionalInt cooldown = hasTPCooldown(player);
 
         if (cooldown.isPresent()) {
             player.sendMessage(Language.translate("commands.generic.teleporation.cooldown", cooldown.getAsInt()));
             tpCooldowns.add(new TPCooldown(player, location,
                     System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(cooldown.getAsInt()), message));
-        } else {
+        } else {*/
             player.level.threadedExecutor.execute(() -> player.teleport(location));
             player.sendMessage(message);
-        }
+        //}
     }
 
     public List<TPCooldown> getTpCooldowns() {
@@ -476,9 +472,10 @@ public class EssentialsAPI {
         int x = pos.getFloorX();
         int y = pos.getFloorY() + 1;
         int z = pos.getFloorZ();
+        Vector3 temporalVector = new Vector3();
         for (; y <= 128; y++) {
-            if (!pos.level.getBlock(this.temporalVector.setComponents(x, y, z)).isSolid() && !pos.level.getBlock(this.temporalVector.setComponents(x, y + 1, z)).isSolid()) {
-                return new Position(x + 0.5, pos.level.getBlock(this.temporalVector.setComponents(x, y - 1, z)).getBoundingBox().getMaxY(), z + 0.5, pos.level);
+            if (!pos.level.getBlock(temporalVector.setComponents(x, y, z)).isSolid() && !pos.level.getBlock(temporalVector.setComponents(x, y + 1, z)).isSolid()) {
+                return new Position(x + 0.5, pos.level.getBlock(temporalVector.setComponents(x, y - 1, z)).getBoundingBox().getMaxY(), z + 0.5, pos.level);
             }
         }
         return null;
@@ -487,9 +484,10 @@ public class EssentialsAPI {
     public Position getHighestStandablePositionAt(Position pos) {
         int x = pos.getFloorX();
         int z = pos.getFloorZ();
+        Vector3 temporalVector = new Vector3();
         for (int y = 127; y >= 0; y--) {
-            if (pos.level.getBlock(this.temporalVector.setComponents(x, y, z)).isSolid()) {
-                return new Position(x + 0.5, pos.level.getBlock(this.temporalVector.setComponents(x, y, z)).getBoundingBox().getMaxY(), z + 0.5, pos.level);
+            if (pos.level.getBlock(temporalVector.setComponents(x, y, z)).isSolid()) {
+                return new Position(x + 0.5, pos.level.getBlock(temporalVector.setComponents(x, y, z)).getBoundingBox().getMaxY(), z + 0.5, pos.level);
             }
         }
         return null;
