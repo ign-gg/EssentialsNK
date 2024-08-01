@@ -51,7 +51,7 @@ public class ReplyCommand extends CommandBase {
             if (api.isMuted(sePlayer)) {
                 sePlayer.sendMessage(Language.translate("commands.generic.muted", api.getUnmuteTimeMessage(sePlayer)));
             }
-            if (api.isIgnoring(player.getUniqueId(), sePlayer.getUniqueId())) {
+            if (api.isIgnoring(player.getUniqueId(), sePlayer.getUniqueId()) && !sender.hasPermission("ignore.bypass")) {
                 sender.sendMessage(TextFormat.RED + "This player doesn't allow private messages from you");
                 return true;
             }
