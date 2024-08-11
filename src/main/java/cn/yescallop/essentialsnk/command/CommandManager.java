@@ -1,6 +1,8 @@
 package cn.yescallop.essentialsnk.command;
 
+import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandMap;
+import cn.nukkit.command.SimpleCommandMap;
 import cn.yescallop.essentialsnk.EssentialsAPI;
 import cn.yescallop.essentialsnk.command.defaults.*;
 import cn.yescallop.essentialsnk.command.defaults.teleport.*;
@@ -8,10 +10,30 @@ import cn.yescallop.essentialsnk.command.defaults.warp.DelWarpCommand;
 import cn.yescallop.essentialsnk.command.defaults.warp.SetWarpCommand;
 import cn.yescallop.essentialsnk.command.defaults.warp.WarpCommand;
 
+import java.lang.reflect.Field;
+import java.util.Map;
+
 public class CommandManager {
 
     public static void registerAll(EssentialsAPI api) {
         CommandMap map = api.getServer().getCommandMap();
+
+        // Unregister vanilla tell command
+        try {
+            Class<?> cl = map.getClass();
+            Field f = cl.getDeclaredField("knownCommands");
+            f.setAccessible(true);
+            Map<String, Command> knownCommands = (Map<String, Command>) f.get(map);
+            knownCommands.remove("nukkit:tell");
+            knownCommands.remove("nukkit:msg");
+            knownCommands.remove("nukkit:w");
+            knownCommands.remove("tell");
+            knownCommands.remove("msg");
+            knownCommands.remove("w");
+            f.set(map, knownCommands);
+        } catch (Exception ex) {
+            api.getLogger().error("Failed to unregister vanilla tell command", ex);
+        }
 
         map.register("EssentialsNK", new BackCommand(api));
         map.register("EssentialsNK", new BreakCommand(api));

@@ -17,7 +17,7 @@ public class MessageCommand extends CommandBase {
 
     public MessageCommand(EssentialsAPI api) {
         super("message", api);
-        this.setAliases(new String[]{"m", "msg", "w", "whisper", "tell"/*, "privatemessage", "pm"*/});
+        this.setAliases(new String[]{/*"m",*/ "msg", "w", "whisper", "tell"/*, "privatemessage", "pm"*/});
 
         // command parameters
         this.commandParameters.clear();
