@@ -29,6 +29,9 @@ public class EventListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         boolean vanished = api.isVanished(player);
+        if (!vanished && EssentialsAPI.getInstance().vanishedPlayers.isEmpty()) {
+            return;
+        }
         for (Player p : api.getServer().getOnlinePlayers().values()) {
             if (api.isVanished(p)) {
                 player.hidePlayer(p);

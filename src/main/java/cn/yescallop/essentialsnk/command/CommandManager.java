@@ -2,7 +2,6 @@ package cn.yescallop.essentialsnk.command;
 
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandMap;
-import cn.nukkit.command.SimpleCommandMap;
 import cn.yescallop.essentialsnk.EssentialsAPI;
 import cn.yescallop.essentialsnk.command.defaults.*;
 import cn.yescallop.essentialsnk.command.defaults.teleport.*;

@@ -48,7 +48,7 @@ public class EssentialsAPI {
     private final List<TPCooldown> tpCooldowns = new ArrayList<>();
     private final Map<Player, Location> playerLastLocation = new ConcurrentHashMap<>();
     private final Map<Integer, TPRequest> tpRequests = new ConcurrentHashMap<>();
-    private final Set<String> vanishedPlayers = ConcurrentHashMap.newKeySet();
+    final Set<String> vanishedPlayers = ConcurrentHashMap.newKeySet();
     private final Map<String, String> lastMessagedPlayers = new ConcurrentHashMap<>();
 
     private final ConfigType homeConfig = null;
@@ -304,6 +304,9 @@ public class EssentialsAPI {
     }
 
     public void removeTPRequest(Player player) {
+        if (this.tpRequests.isEmpty()) {
+            return;
+        }
         this.tpRequests.values().removeIf(request -> request.getSender() == player || request.getRecipient() == player);
     }
 
