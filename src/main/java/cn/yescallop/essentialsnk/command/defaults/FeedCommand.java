@@ -5,6 +5,7 @@ import cn.nukkit.PlayerFood;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.command.data.CommandParamType;
 import cn.nukkit.command.data.CommandParameter;
+import cn.nukkit.level.Sound;
 import cn.nukkit.utils.TextFormat;
 import cn.yescallop.essentialsnk.EssentialsAPI;
 import cn.yescallop.essentialsnk.Language;
@@ -52,6 +53,7 @@ public class FeedCommand extends CommandBase {
         foodData.setLevel(foodData.getMaxLevel());
         foodData.setFoodSaturationLevel(foodData.getMaxLevel());
         foodData.sendFoodLevel();
+        player.getLevel().addSound(player, Sound.RANDOM_BURP, 0.5f, 1f, player);
         player.sendMessage(Language.translate("commands.feed.success"));
         if (sender != player) {
             sender.sendMessage(Language.translate("commands.feed.success.other", player.getDisplayName()));
