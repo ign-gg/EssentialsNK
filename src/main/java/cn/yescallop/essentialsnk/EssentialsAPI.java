@@ -63,11 +63,9 @@ public class EssentialsAPI {
 
         this.warpConfig = new ConfigType(new File(plugin.getDataFolder(), "warp.yml"), Config.YAML);
         this.ignoreConfig = new ConfigType(new File(plugin.getDataFolder(), "ignore.yml"), Config.YAML);
-        Set<ConfigType> configTypes = ImmutableSet.of(this.warpConfig, this.ignoreConfig);
-        this.configs = new Configs(plugin, configTypes);
+        this.configs = new Configs(plugin, this.warpConfig, this.ignoreConfig);
 
-        this.plugin.getServer().getScheduler().scheduleDelayedRepeatingTask(this.plugin, new TeleportationExpireTask(),
-                100, 100);//20, 20, true
+        this.plugin.getServer().getScheduler().scheduleDelayedRepeatingTask(this.plugin, new TeleportationExpireTask(), 100, 100); //20, 20, true
     }
 
     @SuppressWarnings("unused")
@@ -319,18 +317,18 @@ public class EssentialsAPI {
             ignores.put(toIgnoreId, null);
         } else {
             ignores.remove(toIgnoreId);
+            if (ignores.isEmpty()) {
+                this.configs.remove(this.ignoreConfig, playerId);
+                return false;
+            }
         }
         this.configs.set(this.ignoreConfig, playerId, ignores);
         return add;
     }
 
     public boolean isIgnoring(UUID player, UUID target) {
-        String playerId = player.toString();
-        String targetId = target.toString();
-
-        Map<String, Object> ignores = this.configs.get(this.ignoreConfig, playerId, null);
-
-        return ignores != null && ignores.containsKey(targetId);
+        Map<String, Object> ignores = this.configs.get(this.ignoreConfig, player.toString(), null);
+        return ignores != null && ignores.containsKey(target.toString());
     }
 
     public boolean setHome(Player player, String name, Location pos) {

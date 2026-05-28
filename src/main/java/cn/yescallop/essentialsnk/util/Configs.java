@@ -1,30 +1,25 @@
 package cn.yescallop.essentialsnk.util;
 
-import cn.nukkit.plugin.Plugin;
+import cn.nukkit.scheduler.PluginTask;
 import cn.nukkit.scheduler.TaskHandler;
 import cn.nukkit.utils.Config;
 import cn.nukkit.utils.ConfigSection;
-import com.google.common.base.Preconditions;
+import cn.yescallop.essentialsnk.EssentialsNK;
 
 import java.io.Closeable;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Configs implements Closeable {
-    private final Map<ConfigType, ConfigData> configs = new ConcurrentHashMap<>();
+    private final ConfigData[] configs;
     private final TaskHandler reloadTaskHandler;
 
-    public Configs(Plugin plugin, Set<ConfigType> configTypes) {
-        Preconditions.checkNotNull(configTypes, "configTypes");
-        Preconditions.checkArgument(!configTypes.isEmpty(), "configTypes was empty");
-        this.reloadTaskHandler = plugin.getServer().getScheduler()
-                .scheduleDelayedRepeatingTask(plugin, new ConfigChangeTask(), 1200, 1200);
+    public Configs(EssentialsNK plugin, ConfigType... configTypes) {
+        this.reloadTaskHandler = plugin.getServer().getScheduler().scheduleDelayedRepeatingTask(plugin, new ConfigChangeTask(plugin), 2400, 2400); //1200
 
+        configs = new ConfigData[configTypes.length];
         for (ConfigType configType : configTypes) {
-            this.configs.put(configType, new ConfigData(configType));
+            configs[configType.id] = new ConfigData(configType);
         }
     }
 
@@ -33,34 +28,37 @@ public class Configs implements Closeable {
     }
 
     public void set(ConfigType configType, String key, Object value) {
-        Preconditions.checkNotNull(key, "key");
-        this.getConfig(configType).set(key, value);
+        synchronized (configType.getFile()) {
+            this.getConfig(configType).set(key, value);
+        }
     }
 
     public <T> T get(ConfigType configType, String key, T defaultValue) {
-        Preconditions.checkNotNull(key, "key");
-        return this.getConfig(configType).get(key, defaultValue);
+        synchronized (configType.getFile()) {
+            return this.getConfig(configType).get(key, defaultValue);
+        }
     }
 
     public boolean exists(ConfigType configType, String key) {
-        Preconditions.checkNotNull(key, "key");
-        return this.getConfig(configType).exists(key);
+        synchronized (configType.getFile()) {
+            return this.getConfig(configType).exists(key);
+        }
     }
 
     public void remove(ConfigType configType, String key) {
-        Preconditions.checkNotNull(key, "key");
-        this.getConfig(configType).remove(key);
+        synchronized (configType.getFile()) {
+            this.getConfig(configType).remove(key);
+        }
     }
 
     public Set<String> getKeys(ConfigType configType) {
-        return this.getConfig(configType).getKeys();
+        synchronized (configType.getFile()) {
+            return this.getConfig(configType).getKeys();
+        }
     }
 
     private ConfigData getConfig(ConfigType configType) {
-        Preconditions.checkNotNull(configType, "configType");
-        ConfigData config = this.configs.get(configType);
-        Preconditions.checkArgument(config != null, "ConfigType does not exist");
-        return config;
+        return this.configs[configType.id];
     }
 
     @Override
@@ -68,19 +66,33 @@ public class Configs implements Closeable {
         this.reloadTaskHandler.cancel();
     }
 
-    private class ConfigChangeTask implements Runnable {
+    private class ConfigChangeTask extends PluginTask<EssentialsNK> {
+
+        public ConfigChangeTask(EssentialsNK owner) {
+            super(owner);
+        }
 
         @Override
-        public void run() {
-            for (ConfigData data : Configs.this.configs.values()) {
-                if (data.changed.compareAndSet(true, false)) {
+        public void onRun(int i) {
+            saveIfNeeded();
+        }
+
+        @Override
+        public void onCancel() {
+            saveIfNeeded();
+        }
+
+        private void saveIfNeeded() {
+            for (ConfigData data : Configs.this.configs) {
+                if (data.changed) {
+                    data.changed = false;
                     //data.config.reload();
                     for (String key : data.removed) {
                         data.config.remove(key);
                     }
                     data.config.getRootSection().putAll(data.added);
 
-                    data.config.save();
+                    data.config.save(false, true);
                 }
             }
         }
@@ -89,7 +101,7 @@ public class Configs implements Closeable {
     private static class ConfigData {
         private final Config config;
         private final ConfigSection added;
-        private final AtomicBoolean changed = new AtomicBoolean();
+        private volatile boolean changed;
         private final Set<String> removed = new HashSet<>();
 
         private ConfigData(ConfigType configType) {
@@ -100,7 +112,7 @@ public class Configs implements Closeable {
         public void set(String key, Object value) {
             this.added.set(key, value);
             this.removed.remove(key);
-            this.changed.compareAndSet(false, true);
+            this.changed = true;
         }
 
         @SuppressWarnings("unchecked")
@@ -130,7 +142,7 @@ public class Configs implements Closeable {
         public void remove(String key) {
             this.removed.add(key);
             this.added.remove(key);
-            this.changed.compareAndSet(false, true);
+            this.changed = true;
         }
 
         public Set<String> getKeys() {

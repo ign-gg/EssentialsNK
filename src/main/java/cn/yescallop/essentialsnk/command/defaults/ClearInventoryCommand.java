@@ -56,7 +56,7 @@ public class ClearInventoryCommand extends CommandBase {
                 if (offlineData != null) {
                     if (offlineData.contains("Inventory") && offlineData.get("Inventory") instanceof ListTag) {
                         offlineData.remove("Inventory");
-                        sender.getServer().saveOfflinePlayerData(offlinePlayer, offlineData);
+                        sender.getServer().saveOfflinePlayerData(sender.getServer().lookupName(offlinePlayer).get(), offlineData, false);
                         sender.sendMessage("Offline player inventory cleared: " + offlinePlayer);
                         EssentialsNK.instance.getLogger().warning(sender.getName() + " cleared the inventory of offline player " + offlinePlayer);
                     } else {

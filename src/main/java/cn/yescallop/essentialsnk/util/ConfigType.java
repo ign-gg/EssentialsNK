@@ -4,6 +4,9 @@ import java.io.File;
 import java.util.Objects;
 
 public class ConfigType {
+    private static int idCounter = 0;
+    int id = idCounter++;
+
     private final File file;
     private final int type;
 
