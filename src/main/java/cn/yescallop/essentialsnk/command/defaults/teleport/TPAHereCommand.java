@@ -1,9 +1,11 @@
 package cn.yescallop.essentialsnk.command.defaults.teleport;
 
 import cn.nukkit.Player;
+import cn.nukkit.Server;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.command.data.CommandParamType;
 import cn.nukkit.command.data.CommandParameter;
+import cn.nukkit.level.Level;
 import cn.nukkit.utils.TextFormat;
 import cn.yescallop.essentialsnk.EssentialsAPI;
 import cn.yescallop.essentialsnk.Language;
@@ -46,7 +48,12 @@ public class TPAHereCommand extends CommandBase {
         }
         if (!api.isIgnoring(player.getUniqueId(), ((Player) sender).getUniqueId())) {
             api.requestTP((Player) sender, player, false);
-            player.sendMessage(Language.translate("commands.tpahere.invite", sender.getName()));
+            String tpmsg = Language.translate("commands.tpahere.invite", sender.getName());
+            if (Server.ignGamerules) {
+                String dimension = ((Player) sender).getLevel().getDimension() == Level.DIMENSION_NETHER ? "nether" : ((Player) sender).getLevel().getDimension() == Level.DIMENSION_THE_END ? "the end" : "overworld";
+                tpmsg += "\n(" + dimension + " " + (((Player) sender).getFloorX()) + " " + ((Player) sender).getFloorY() + " " + ((Player) sender).getFloorZ() + ")";
+            }
+            player.sendMessage(tpmsg);
             sender.sendMessage(Language.translate("commands.tpa.success", player.getDisplayName()));
         } else {
             sender.sendMessage(Language.translate("commands.tpdeny.denied", player.getDisplayName()));
